@@ -3,7 +3,7 @@
 # This python script is used to convert the Catholic Public Domain Bible (CPDV) into JSON format.
 # Please read the README.md file for more information.
 # 
-# https://github.com/yoarikso/cpdv_json
+# https://github.com/yoarikso/cpdvbible
 # 
 
 import json
