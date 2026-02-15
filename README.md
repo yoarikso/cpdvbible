@@ -21,5 +21,4 @@ python3 cpdv.py
 
 ## Updates
 
-**10 Nov 2025**: Initial release includes all the latest errata corrections up February 2025. Errata corrections are available at: https://www.sacredbible.org/errata.htm
-
+**10 Nov 2025**: Initial release includes all the latest errata corrections up 26 February 2025. Errata corrections are available at: https://www.sacredbible.org/errata.htm
