@@ -8,6 +8,7 @@
 
 import json
 import os
+import re
 import time
 import urllib.request
 
@@ -25,38 +26,34 @@ def to_json(book_name, bible_map):
     with open(file_html, "r", encoding="windows-1252", newline='') as f:
         genesis = f.read()
 
-    results = genesis.split("\r\n")
+    # Revelation (and possibly other long books) use a different format: multiple verses
+    # per line with lines starting with [Book N] instead of {c:v}. Use regex to find
+    # all {chapter:verse} patterns in the full content, which works for both formats.
+    content_clean = genesis.replace("<BR>", "")
+    verse_pattern = re.compile(r'\{(\d+):(\d+)\}\s*([^{]*)')
+
+    # Strip HTML tags and chapter anchors that appear between verses (e.g. in Revelation)
+    def clean_verse_text(text):
+        text = re.sub(r'<[^>]+>', '', text)  # Remove HTML tags
+        text = re.sub(r'\s*\[[^\]]*Revelation\s+\d+[^\]]*\]\s*', ' ', text)  # Remove [Revelation N] anchors
+        # Remove trailing "The Sacred Bible: {book name}" footer that appears in the last verse
+        text = re.sub(r'\s*[\r\n]+\s*The Sacred Bible:[\s\S]*$', '', text)
+        return text.strip()
 
     book = {}
+    for match in verse_pattern.finditer(content_clean):
+        chapter, verse, content = match.groups()
+        content = clean_verse_text(content)
+        if not content:
+            continue
 
-    for it in results:
-        try:
-            if it.startswith("{"):
-                end_meta = it.index("}")
-                meta = it[0:end_meta+1]
+        # Convert content to UTF-8 (matching Groovy's encode/decode cycle)
+        content_utf8 = content.encode("utf-8").decode("utf-8")
 
-                strt_idx = end_meta + 2
+        if chapter not in book:
+            book[chapter] = {}
 
-                it = it.replace("<BR>", "")
-                end_idx = len(it) - 1
-                content = it[strt_idx:end_idx]
-
-                # Convert content to UTF-8 (matching Groovy's encode/decode cycle)
-                # In Python, strings are Unicode, so we encode to UTF-8 bytes and decode back
-                # to match the Groovy behavior of ensuring UTF-8 encoding
-                content_utf8 = content.encode("utf-8").decode("utf-8")
-
-                chapter = meta[1:meta.index(":")]
-                verse = meta[meta.index(":")+1:meta.index("}")]
-
-                if chapter not in book:
-                    book[chapter] = {}
-
-                chapter_map = book[chapter]
-                chapter_map[verse] = content_utf8
-
-        except Exception as e:
-            print(e)
+        book[chapter][verse] = content_utf8
 
     if bible_map is not None:
         book_name_key = book_name[book_name.index("_")+1:]
@@ -137,7 +134,7 @@ to_json("OT-44_Malachi", bible_map)
 to_json("OT-45_1-Maccabees", bible_map)
 to_json("OT-46_2-Maccabees", bible_map)
 
-# New Testament
+# # New Testament
 to_json("NT-01_Matthew", bible_map)
 to_json("NT-02_Mark", bible_map)
 to_json("NT-03_Luke", bible_map)
@@ -166,6 +163,7 @@ to_json("NT-25_3-John", bible_map)
 to_json("NT-26_Jude", bible_map)
 to_json("NT-27_Revelation", bible_map)
 
+
 end_time = time.time()
 
 total_time = (end_time - start_time) * 1000  # Convert to milliseconds
@@ -173,7 +171,7 @@ total_time = (end_time - start_time) * 1000  # Convert to milliseconds
 print(f"Finished encoding CPDV Bible into JSON format - {total_time:.0f}ms")
 
 json_str = json.dumps(bible_map, indent=4, ensure_ascii=False)
-file_json = "CPDV-JSON/EntireBible-CPDV.json"
+file_json = "cpdv-json/EntireBible-CPDV.json"
 with open(file_json, "w", encoding="utf-8") as f:
     f.write(json_str)
 
