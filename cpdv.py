@@ -35,7 +35,8 @@ def to_json(book_name, bible_map):
     # Strip HTML tags and chapter anchors that appear between verses (e.g. in Revelation)
     def clean_verse_text(text):
         text = re.sub(r'<[^>]+>', '', text)  # Remove HTML tags
-        text = re.sub(r'\s*\[[^\]]*Revelation\s+\d+[^\]]*\]\s*', ' ', text)  # Remove [Revelation N] anchors
+        # Remove any [Book_name N] chapter anchors (e.g. [Genesis 2], [Revelation 3], [1 John 2])
+        text = re.sub(r'\s*\[\s*[^\[\]]+\s+\d+\s*\]\s*', ' ', text)
         # Remove trailing "The Sacred Bible: {book name}" footer that appears in the last verse
         text = re.sub(r'\s*[\r\n]+\s*The Sacred Bible:[\s\S]*$', '', text)
         return text.strip()
