@@ -21,5 +21,5 @@ python3 cpdv.py
 
 ## Updates
 
-**16 Mar 2026**: Fixes so that now Book of Revelations now were able to be parsed into Json. Reparsed all books in cpdv-json folder with fixes.
-**10 Nov 2025**: Initial release includes all the latest errata corrections up 26 February 2025. Errata corrections are available at: https://www.sacredbible.org/errata.htm
+- **16 Mar 2026**: Fixes so that now Book of Revelations now were able to be parsed into Json. Reparsed all books in cpdv-json folder with fixes.
+- **10 Nov 2025**: Initial release includes all the latest errata corrections up 26 February 2025. Errata corrections are available at: https://www.sacredbible.org/errata.htm
