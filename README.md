@@ -27,6 +27,12 @@ To merge the JSON files into a single EntireBible-CPDV.json file, run the follow
 python3 cpdv.py -m (--merge-bible)
 ```
 
+To check the integrity of the JSON files, run the following command:
+
+```bash
+python3 cpdv_checkintegrity.py
+```
+
 ## Updates
 
 - **28 Mar 2026**: Parsing is now under -e (--encode-bible command), while adding a new command -m (--merge-bible) to merge the JSON files into a single EntireBible-CPDV.json file.
