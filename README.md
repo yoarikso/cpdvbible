@@ -6,7 +6,7 @@ Originally, it was a direct Python translation of the Groovy script CPDVJSONEnco
 
 Catholic Public Domain Version of the Bible is edited and translated by **Ronald L. Conte Jr** and can be found at: https://www.sacredbible.org/index.htm
 
-Totus Tuus, Ad Majorem Dei Gloriam +
+Totus Tuus, Ad Majorem Dei Gloriam! +
 
 
 ## Overview
