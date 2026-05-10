@@ -19,6 +19,9 @@ def download(address):
     filename = address.split("/")[-1]
     urllib.request.urlretrieve(address, filename)
 
+    # after downloading, rename the file to OT-24_SongOfSongs.htm
+    if filename == "OT-24_Song2.htm":
+        os.rename(filename, "OT-24_SongOfSongs.htm")
 
 def to_json(book_name, bible_map):
     download(to_url(book_name))
@@ -76,6 +79,10 @@ def to_json(book_name, bible_map):
 
 def to_url(book_name):
     host = "http://www.sacredbible.org/catholic/"
+    
+    # Song of Songs is named OT-24_Song2 in the cpdv website.
+    if(book_name == "OT-24_SongOfSongs"):
+        book_name = "OT-24_Song2"
 
     return f"{host}{book_name}.htm"
 
