@@ -180,7 +180,7 @@ if __name__ == "__main__":
     to_json("OT-21_Psalms", bible_map)
     to_json("OT-22_Proverbs", bible_map)
     to_json("OT-23_Ecclesiastes", bible_map)
-    to_json("OT-24_Song2", bible_map)
+    to_json("OT-24_SongOfSongs", bible_map)
     to_json("OT-25_Wisdom", bible_map)
     to_json("OT-26_Sirach", bible_map)
     to_json("OT-27_Isaiah", bible_map)
